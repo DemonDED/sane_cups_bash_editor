@@ -41,19 +41,38 @@ read -p "Please, choose setup work: " SETUP
 # Enter for SANE scanner data
 if [[ $SETUP -eq 1 ]]; then
 
-	read -p "Enter IP to airscan add: " SCANNER_IP
-	read -p "Enter Name device: " SCANNER_NAME
-	read -p "Enter scaner port (if exist): " SCANNER_PORT
+	if [[ -f $PATH_TO_AIRSCAN ]]; then
 
-	if [[ ${SCANNER_PORT} -ne "" ]]; then
-		SCANNER_PORT=":$SCANNER_PORT"
+		read -p "Enter IP to airscan add: " SCANNER_IP
+		read -p "Enter Name device: " SCANNER_NAME
+		read -p "Enter scaner port (if exist): " SCANNER_PORT
+
+		if [[ ${SCANNER_PORT} -ne "" ]]; then
+			SCANNER_PORT=":$SCANNER_PORT"
+		fi
+
+
+		sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP${SCANNER_PORT}/eSCL, escl" $PATH_TO_AIRSCAN
+
+	else
+
+		echo "[ERROR]: This setup work only with sane-airscan backend!"
+		echo "[WARNING]: Please, install sane-airscan - sudo apt install
+		sane-airscan"
+		exit 1
+
 	fi
-
-
-	sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP${SCANNER_PORT}/eSCL, escl" $PATH_TO_AIRSCAN
-
 fi
 
 if [[ $SETUP -eq 2 ]]; then
-	echo "Sorry, this functional do not work."
+
+	if command -v lpadmin >/dev/null 2>&1; then
+
+		echo "Sorry, this functional do not work."
+	else
+		echo "[ERROR]: This setup work only with cups utility"
+		echo "[WARNING]: Please, install cups and cups-client - sudo apt install
+		cups cups-client"
+
+	fi
 fi
