@@ -5,6 +5,8 @@
 PATH_TO_AIRSCAN="/etc/sane.d/airscan.conf"
 SCANNER_IP=""
 SCANNER_NAME=""
+SCANNER_TYPE=""
+SCANNER_PORT=""
 
 # Main script
 
@@ -30,8 +32,15 @@ fi
 #	echo "[WARNING]: Please, install SANE and restart command"
 #fi
 
+# Enter for SANE scanner data
+
 read -p "Enter IP to airscan add: " SCANNER_IP
-
 read -p "Enter Name device: " SCANNER_NAME
+read -p "Enter scaner port (if exist): " SCANNER_PORT
 
-sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP:631/eSCL, escl" $PATH_TO_AIRSCAN
+if [[ ${SCANNER_PORT} -ne "" ]]; then
+	SCANNER_PORT=":$SCANNER_PORT"
+fi
+
+
+sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP${SCANNER_PORT}/eSCL, escl" $PATH_TO_AIRSCAN
