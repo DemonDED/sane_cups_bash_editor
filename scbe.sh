@@ -2,11 +2,14 @@
 
 # Main variables
 
+SETUP=""
+
 PATH_TO_AIRSCAN="/etc/sane.d/airscan.conf"
 SCANNER_IP=""
 SCANNER_NAME=""
 SCANNER_TYPE=""
 SCANNER_PORT=""
+
 
 # Main script
 
@@ -21,6 +24,9 @@ else
 	exit 1
 fi
 
+echo -e "1. Set SANE config\n2. Set CUPS config\n"
+read -p "Please, choose setup work: " SETUP
+
 #if ! command -v cups &> /dev/null; then
 #	echo "[ERROR]: CUPS do not install on system"
 #	echo "[WARNING]: Please, install CUPS and restart command"
@@ -33,14 +39,21 @@ fi
 #fi
 
 # Enter for SANE scanner data
+if [[ $SETUP -eq 1 ]]; then
 
-read -p "Enter IP to airscan add: " SCANNER_IP
-read -p "Enter Name device: " SCANNER_NAME
-read -p "Enter scaner port (if exist): " SCANNER_PORT
+	read -p "Enter IP to airscan add: " SCANNER_IP
+	read -p "Enter Name device: " SCANNER_NAME
+	read -p "Enter scaner port (if exist): " SCANNER_PORT
 
-if [[ ${SCANNER_PORT} -ne "" ]]; then
-	SCANNER_PORT=":$SCANNER_PORT"
+	if [[ ${SCANNER_PORT} -ne "" ]]; then
+		SCANNER_PORT=":$SCANNER_PORT"
+	fi
+
+
+	sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP${SCANNER_PORT}/eSCL, escl" $PATH_TO_AIRSCAN
+
 fi
 
-
-sed -i "/^\[devices\]$/a '$SCANNER_NAME' = http://$SCANNER_IP${SCANNER_PORT}/eSCL, escl" $PATH_TO_AIRSCAN
+if [[ $SETUP -eq 2 ]]; then
+	echo "Sorry, this functional do not work."
+fi
