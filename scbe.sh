@@ -25,19 +25,8 @@ else
 	exit 1
 fi
 
-echo -e "1. Set SANE config\n2. Set CUPS config\n"
+echo -e "1. Set SANE config\n2. Set CUPS config\n3. Optimization SANE airscan (auto scan ip off)\n"
 read -p "Please, choose setup work: " SETUP
-
-#if ! command -v cups &> /dev/null; then
-#	echo "[ERROR]: CUPS do not install on system"
-#	echo "[WARNING]: Please, install CUPS and restart command"
-#	exit 1
-#fi
-
-#if ! command -v scanimage &> /dev/null; then
-#	echo "[ERROR]: SANE do not install on system"
-#	echo "[WARNING]: Please, install SANE and restart command"
-#fi
 
 # Enter for SANE scanner data
 if [[ $SETUP -eq 1 ]]; then
@@ -86,4 +75,16 @@ if [[ $SETUP -eq 2 ]]; then
 		cups cups-client"
 
 	fi
+fi
+
+# Optimization for airscan (without auto scaning ip)
+if [[ $SETUP -eq 3 ]]; then
+	sed -i 's/^[^#]/#&/' /etc/sane.d/dll.conf
+	mkdir /etc/sane.d/dll.d_backup
+
+	for file in /etc/sane.d/dll.d/*; do
+		if [[ -f "$file" && ! "$(basename "$file")" =~ ^airscan ]]; then
+			mv "$file" /etc/sane.d/dll.d_backup/
+		fi
+	done
 fi
