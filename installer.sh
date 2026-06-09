@@ -14,7 +14,7 @@ if [[ "$EUID" -ne 0 ]]; then
 	exit 1
 fi
 
-curl -sSL "" -o "$TARGET_DIR/$BINARY_NAME"
+curl -sSL "https://raw.githubusercontent.com/DemonDED/sane_cups_bash_editor/refs/heads/develope/installer.sh" -o "$TARGET_DIR/$BINARY_NAME"
 
 chmod +x "$TARGET_DIR/$BINARY_NAME"
 
