@@ -68,7 +68,9 @@ if [[ $SETUP -eq 2 ]]; then
 
 	if command -v lpadmin >/dev/null 2>&1; then
 
-		echo "Sorry, this functional do not work."
+		#echo "Sorry, this functional do not work."
+		lpstat -v
+
 	else
 		echo "[ERROR]: This setup work only with cups utility"
 		echo "[WARNING]: Please, install cups and cups-client - sudo apt install
