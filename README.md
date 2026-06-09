@@ -9,4 +9,8 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/DemonDED/sane_cups_
 ## Manual install:
 
 1) Download scbe.sh
-2) Open terminal and enter - ```bash mv scbe.sh /usr/local/sbin/scbe```
+2) Open terminal and enter
+
+```bash 
+mv scbe.sh /usr/local/sbin/scbe
+```
