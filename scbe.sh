@@ -3,6 +3,7 @@
 # Main variables
 
 SETUP=""
+IP_REGEX="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 
 PATH_TO_AIRSCAN="/etc/sane.d/airscan.conf"
 SCANNER_IP=""
@@ -43,9 +44,19 @@ if [[ $SETUP -eq 1 ]]; then
 
 	if [[ -f $PATH_TO_AIRSCAN ]]; then
 
-		read -p "Enter IP to airscan add: " SCANNER_IP
+		while true;do
+			read -p "Enter IP to airscan add: " SCANNER_IP
+
+			if [[ ! $SCANNER_IP =~ $IP_REGEX ]]; then
+				echo "[ERROR]: IP incorrect!"
+				echo "[WARNING]: Please, enter correct ip"
+			else
+				break
+			fi
+		done
+
 		read -p "Enter Name device: " SCANNER_NAME
-		read -p "Enter scaner port (if exist): " SCANNER_PORT
+		read -p "Enter scaner port (if applicable) or press Enter to skip: " SCANNER_PORT
 
 		if [[ ${SCANNER_PORT} -ne "" ]]; then
 			SCANNER_PORT=":$SCANNER_PORT"
