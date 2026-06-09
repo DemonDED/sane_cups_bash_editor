@@ -7,7 +7,7 @@ set -e
 TARGET_DIR=/usr/local/sbin
 BINARY_NAME="scbe"
 PROGRAM_NAME="Sane-Cups Bash Editor"
-LINK_MAIN_BINARY="https://raw.githubusercontent.com/DemonDED/sane_cups_bash_editor/refs/heads/develope/scbe.sh"
+LINK_MAIN_BINARY="https://raw.githubusercontent.com/DemonDED/sane_cups_bash_editor/refs/heads/master/scbe.sh"
 
 echo "Download and install ${PROGRAM_NAME} by DemonDED"
 
