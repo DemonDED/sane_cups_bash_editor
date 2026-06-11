@@ -11,6 +11,7 @@ SCANNER_NAME=""
 SCANNER_TYPE=""
 SCANNER_PORT=""
 
+ACTION_FOR_CUPS=""
 
 # Main script
 
@@ -69,7 +70,21 @@ if [[ $SETUP -eq 2 ]]; then
 	if command -v lpadmin >/dev/null 2>&1; then
 
 		#echo "Sorry, this functional do not work."
-		lpstat -v
+		echo -e "Choose action:\n"
+		echo -e "1. Add new device\n2. Edit exist devices\n3. Delete exist devices\n"
+		
+		read -p "" ACTION_FOR_CUPS
+
+		#lpstat -v
+		if [[ $ACTION_FOR_CUPS -eq 1 ]]; then
+			echo "You choose 1"
+		fi
+		if [[ $ACTION_FOR_CUPS -eq 2 ]]; then
+			echo "You choose 2"
+		fi
+		if [[ $ACTION_FOR_CUPS -eq 3 ]]; then
+			echo "You choose 3"
+		fi
 
 	else
 		echo "[ERROR]: This setup work only with cups utility"
@@ -90,3 +105,5 @@ if [[ $SETUP -eq 3 ]]; then
 		fi
 	done
 fi
+
+
