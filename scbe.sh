@@ -69,20 +69,37 @@ if [[ $SETUP -eq 2 ]]; then
 
 	if command -v lpadmin >/dev/null 2>&1; then
 
-		echo -e "1. Add new device\n2. Edit exist device\n3. Delete exist device\n"
+		echo -e "1. Add new device\n2. Edit exist device\n3. Delete exist device\n4. Show devices list\n"
 		
 		read -p "Choose action: " ACTION_FOR_CUPS
 
-		CUPS_DATA_DEVICES=$(lpstat -v)
+		CUPS_DATA_DEVICES=$(lpstat -v 2>&1)
 
-		echo -e "\nExist data of devices:\n"
-		echo "$CUPS_DATA_DEVICES"
+		if [[ $ACTION_FOR_CUPS -eq 4 ]]; then
+			echo -e "\nExist data of devices:\n"
+			echo "$CUPS_DATA_DEVICES"
+		fi
 
 		#lpstat -v
 		if [[ $ACTION_FOR_CUPS -eq 1 ]]; then
+			NAME_NEW_CUPS_DEVICE=""
+			IP_NEW_CUPS_DEVICE=""
+			DESCRIPTION_NEW_CUPS_DEVICE=""
+			LOCATION_NEW_CUPS_DEVICE=""
+
 			#lpadmin -p "My name" -E (activate) -v socket://192.168.229.***:9100
 			#-m everywhere -D описание опционально -L расположение опционально
-			echo "You choose 1"
+			read -p "Enter name new device: " NAME_NEW_CUPS_DEVICE
+			read -p "Enter ip new device: " IP_NEW_CUPS_DEVICE
+			read -p "Enter description (if need): " DESCRIPTION_NEW_CUPS_DEVICE
+			read -p "Enter location (if need): " LOCATION_NEW_CUPS_DEVICE
+
+
+			lpadmin -p "$NAME_NEW_CUPS_DEVICE" -E \
+			-v ipp://$IP_NEW_CUPS_DEVICE:9100 \
+			-m everywhere \
+			-D "$DESCRIPTION_NEW_CUPS_DEVICE" \
+			-L "$LOCATION_NEW_CUPS_DEVICE"
 		fi
 		if [[ $ACTION_FOR_CUPS -eq 2 ]]; then
 			echo "You choose 2"
@@ -110,5 +127,3 @@ if [[ $SETUP -eq 3 ]]; then
 		fi
 	done
 fi
-
-
