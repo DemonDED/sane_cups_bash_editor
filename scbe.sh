@@ -13,6 +13,36 @@ SCANNER_PORT=""
 
 ACTION_FOR_CUPS=""
 
+
+#Main funcitons
+
+get_ip_addr() {
+	local text_local=$1
+	local ip_local=""
+
+	while true; do
+		read -p "$text_local: " ip_local
+
+		if check_ip_entered "$ip_local"; then
+			echo "$ip_local"
+			return 0
+		fi
+	done
+}
+
+check_ip_entered() {
+	local check_ip=$1
+
+	if [[ ! $check_ip =~ $IP_REGEX ]]; then
+		echo "[ERROR]: IP incorrect!" >&2
+		echo "[WARNING]: Please enter correct ip!" >&2
+		return 1
+	else
+		return 0	
+	fi
+}
+
+
 # Main script
 
 echo -e 'Welcome to Sane-Cups Bash Editor (scbe)!\n'
@@ -34,16 +64,7 @@ if [[ $SETUP -eq 1 ]]; then
 
 	if [[ -f $PATH_TO_AIRSCAN ]]; then
 
-		while true;do
-			read -p "Enter IP to airscan add: " SCANNER_IP
-
-			if [[ ! $SCANNER_IP =~ $IP_REGEX ]]; then
-				echo "[ERROR]: IP incorrect!"
-				echo "[WARNING]: Please, enter correct ip"
-			else
-				break
-			fi
-		done
+		SCANNER_IP=$(get_ip_addr "Enter ip for airscan")
 
 		read -p "Enter Name device: " SCANNER_NAME
 		read -p "Enter scaner port (if applicable) or press Enter to skip: " SCANNER_PORT
@@ -90,7 +111,12 @@ if [[ $SETUP -eq 2 ]]; then
 			#lpadmin -p "My name" -E (activate) -v socket://192.168.229.***:9100
 			#-m everywhere -D описание опционально -L расположение опционально
 			read -p "Enter name new device: " NAME_NEW_CUPS_DEVICE
-			read -p "Enter ip new device: " IP_NEW_CUPS_DEVICE
+			
+
+			#read -p "Enter ip new device: " IP_NEW_CUPS_DEVICE
+			IP_NEW_CUPS_DEVICE=$(get_ip_addr "Enter ip for new device CUPS")
+
+
 			read -p "Enter description (if need): " DESCRIPTION_NEW_CUPS_DEVICE
 			read -p "Enter location (if need): " LOCATION_NEW_CUPS_DEVICE
 
