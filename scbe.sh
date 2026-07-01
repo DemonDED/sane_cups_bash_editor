@@ -14,6 +14,16 @@ SCANNER_PORT=""
 ACTION_FOR_CUPS=""
 
 
+#Main colors echo
+GREEN="\e[32m"
+RED="\e[31m"
+YELLOW="\e[33m"
+RESET_COLOR="\e[0m"
+
+
+ERROR_MSG="$RED[ERROR]$RESET_COLOR"
+WARNING_MSG="$YELLOW[WARNING]$RESET_COLOR"
+
 #Main funcitons
 
 get_ip_addr() {
@@ -34,8 +44,8 @@ check_ip_entered() {
 	local check_ip=$1
 
 	if [[ ! $check_ip =~ $IP_REGEX ]]; then
-		echo "[ERROR]: IP incorrect!" >&2
-		echo "[WARNING]: Please enter correct ip!" >&2
+		echo -e "$ERROR_MSG: IP incorrect!" >&2
+		echo -e "$WARNING_MSG: Please enter correct ip!" >&2
 		return 1
 	else
 		return 0	
@@ -52,11 +62,15 @@ echo -e 'Welcome to Sane-Cups Bash Editor (scbe)!\n'
 if [ "$EUID" -eq 0 ]; then
 	echo "Hello Administrator!"
 else
-	echo "[ERROR]: This command must work on root!"
+	echo -e "$ERROR_MSG: This command must work on root!"
 	exit 1
 fi
 
-echo -e "1. Set SANE config\n2. Set CUPS config\n3. Optimization SANE airscan (auto scan ip off)\n"
+echo -e "${GREEN}1.$RESET_COLOR Set SANE config"
+echo -e "${GREEN}2.$RESET_COLOR Set CUPS config"
+echo -e "${GREEN}3.$RESET_COLOR Optimization SANE airscan (auto scan ip off)"
+echo -e "${GREEN}4.$RESET_COLOR Optimization CUPS (browsed off)"
+
 read -p "Please, choose setup work: " SETUP
 
 # Enter for SANE scanner data
@@ -78,8 +92,8 @@ if [[ $SETUP -eq 1 ]]; then
 
 	else
 
-		echo "[ERROR]: This setup work only with sane-airscan backend!"
-		echo "[WARNING]: Please, install sane-airscan - sudo apt install
+		echo -e "$ERROR_MSG: This setup work only with sane-airscan backend!"
+		echo -e "$WARNING_MSG: Please, install sane-airscan - sudo apt install
 		sane-airscan"
 		exit 1
 
@@ -135,8 +149,8 @@ if [[ $SETUP -eq 2 ]]; then
 		fi
 
 	else
-		echo "[ERROR]: This setup work only with cups utility"
-		echo "[WARNING]: Please, install cups and cups-client - sudo apt install
+		echo -e "$ERROR_MSG: This setup work only with cups utility"
+		echo -e "$WARNING_MSG: Please, install cups and cups-client - sudo apt install
 		cups cups-client"
 
 	fi
@@ -153,3 +167,8 @@ if [[ $SETUP -eq 3 ]]; then
 		fi
 	done
 fi
+
+#if [[ $SETUP -eq 4 ]]; then
+	#systemctl stop cups-browsed
+	#systemctl disable cups-browsed
+#fi
