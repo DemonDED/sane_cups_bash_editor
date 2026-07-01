@@ -69,14 +69,19 @@ if [[ $SETUP -eq 2 ]]; then
 
 	if command -v lpadmin >/dev/null 2>&1; then
 
-		#echo "Sorry, this functional do not work."
-		echo -e "Choose action:\n"
-		echo -e "1. Add new device\n2. Edit exist devices\n3. Delete exist devices\n"
+		echo -e "1. Add new device\n2. Edit exist device\n3. Delete exist device\n"
 		
-		read -p "" ACTION_FOR_CUPS
+		read -p "Choose action: " ACTION_FOR_CUPS
+
+		CUPS_DATA_DEVICES=$(lpstat -v)
+
+		echo -e "\nExist data of devices:\n"
+		echo "$CUPS_DATA_DEVICES"
 
 		#lpstat -v
 		if [[ $ACTION_FOR_CUPS -eq 1 ]]; then
+			#lpadmin -p "My name" -E (activate) -v socket://192.168.229.***:9100
+			#-m everywhere -D описание опционально -L расположение опционально
 			echo "You choose 1"
 		fi
 		if [[ $ACTION_FOR_CUPS -eq 2 ]]; then
