@@ -168,7 +168,7 @@ if [[ $SETUP -eq 3 ]]; then
 	done
 fi
 
-#if [[ $SETUP -eq 4 ]]; then
-	#systemctl stop cups-browsed
-	#systemctl disable cups-browsed
-#fi
+if [[ $SETUP -eq 4 ]]; then
+	systemctl stop cups-browsed
+	systemctl disable cups-browsed
+fi
