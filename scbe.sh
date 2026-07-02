@@ -207,6 +207,7 @@ if [[ $SETUP -eq 4 ]]; then
 	systemctl disable cups-browsed
 
 	sed -i.bak -E 's/^([[:space:]]*Browsing[[:space:]]+)(On|Yes|No)/\1Off/i' /etc/cups/cupsd.conf
+	sed -i.bak -E 's/^([[:space:]]*BrowseLocalProtocols[[:space:]]+)(dnssd)/\1none/i' /etc/cups/cupsd.conf
 
 	systemctl restart cups
 fi
