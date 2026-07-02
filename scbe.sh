@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Main variables
 
 SETUP=""
@@ -92,6 +91,10 @@ check_ip_entered() {
 }
 
 
+
+#loader_dot() {
+
+#}
 # Main script
 
 echo -e 'Welcome to Sane-Cups Bash Editor (scbe)!\n'
