@@ -11,11 +11,14 @@ cups_menu() {
 	echo -e "${ORANGE}2.$RESET_COLOR Edit exist device" >&2
 	echo -e "${ORANGE}3.$RESET_COLOR Delete exist device" >&2
 	echo -e "${ORANGE}4.$RESET_COLOR Show devices list" >&2
+	echo -e "${ORANGE}5.$RESET_COLOR Back to main menu"
 }
 sane_menu() {
 	echo -e "${BLUE}1.$RESET_COLOR Add new device" >&2
+	echo -e "${BLUE}2.$RESET_COLOR Show device list" >&2
+	echo -e "${BLUE}3.$RESET_COLOR Back to main menu" >&2
 }
-
+###
 get_setup() {
 	local setup_local=""
 
@@ -25,7 +28,7 @@ get_setup() {
 		read -p "Please, choose setup work: " setup_local
 		
 		if check_setup "$setup_local"; then
-			echo "$setup_local"
+			echo -e "$setup_local"
 			return 0
 		fi
 	done
@@ -36,7 +39,34 @@ check_setup() {
 
 	if [[ $set_loc -ne 1 && $set_loc -ne 2 && $set_loc -ne 3 && $set_loc -ne 4 && $set_loc -ne 5 ]]; then
 		echo -e "$ERROR_MSG: Incorrect setup value!" >&2
-		echo -e "$WARNING_MSG: Please, enter correct setup value!" >&2
+		echo -e "$WARNING_MSG: Please, enter correct setup value!\n" >&2
+		return 1
+	else
+		return 0
+	fi
+}
+###
+get_sane_setup(){
+	local sane_setup_local=""
+
+	sane_menu
+
+	while true; do
+		read -p "Please, choose setup work: " sane_setup_local
+
+		if check_sane_setup "$sane_setup_local"; then
+			echo -e "$sane_setup_local"
+			return 0
+		fi
+	done
+}
+
+check_sane_setup(){
+	local sane_loc=$1
+
+	if [[ $sane_loc -ne 1 && $sane_loc -ne 2 && $sane_loc -ne 3 ]]; then
+		echo -e "$ERROR_MSG: Incorrect setup value!" >&2
+		echo -e "$WARNING_MSG: Please, enter correct setup value!\n" >&2
 		return 1
 	else
 		return 0
