@@ -135,4 +135,8 @@ if [[ $SETUP -eq 4 ]]; then
 	systemctl restart cups
 fi
 
+if [[ $SETUP -eq 5 ]]; then
+	MAIN_FLAG=0
+fi
+
 done

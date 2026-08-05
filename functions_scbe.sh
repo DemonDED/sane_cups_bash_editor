@@ -4,6 +4,7 @@ setup_menu() {
 	echo -e "${GREEN}2.$RESET_COLOR Set ${ORANGE}CUPS$RESET_COLOR config" >&2
 	echo -e "${GREEN}3.$RESET_COLOR Optimization SANE airscan (auto scan ip off)" >&2
 	echo -e "${GREEN}4.$RESET_COLOR Optimization CUPS (browsed off)" >&2
+	echo -e "${GREEN}5.$RESET_COLOR Exit" >&2
 }
 cups_menu() {
 	echo -e "${ORANGE}1.$RESET_COLOR Add new device" >&2
@@ -33,7 +34,7 @@ get_setup() {
 check_setup() {
 	local set_loc=$1
 
-	if [[ $set_loc -ne 1 && $set_loc -ne 2 && $set_loc -ne 3 && $set_loc -ne 4 ]]; then
+	if [[ $set_loc -ne 1 && $set_loc -ne 2 && $set_loc -ne 3 && $set_loc -ne 4 && $set_loc -ne 5 ]]; then
 		echo -e "$ERROR_MSG: Incorrect setup value!" >&2
 		echo -e "$WARNING_MSG: Please, enter correct setup value!" >&2
 		return 1
