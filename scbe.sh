@@ -4,6 +4,7 @@ source ./variables_scbe.sh
 source ./colors_scbe.sh
 source ./functions_scbe.sh
 source ./sane_functional_scbe.sh
+source ./cups_functional_scbe.sh
 
 #loader_dot() {
 
@@ -13,7 +14,7 @@ source ./sane_functional_scbe.sh
 
 echo -e 'Welcome to Sane-Cups Bash Editor (scbe)!\n'
 
-### Status check ###########
+### Status check #############################
 
 if [ "$EUID" -eq 0 ]; then
 	echo "Hello Administrator!"
@@ -23,15 +24,15 @@ else
 	exit 1
 fi
 
-############################
+###############################################
 
-### Main while cycle #######
+### Main while cycle ##########################
 
 while [ $MAIN_FLAG -eq 1 ]; do
 
 	SETUP=$(get_setup)
 
-	# Enter for SANE scanner data
+### Set SANE config ############################
 	if [[ $SETUP -eq 1 ]]; then
 
 	SANE_FLAG=1
@@ -64,86 +65,87 @@ while [ $MAIN_FLAG -eq 1 ]; do
 		fi
 	done
 	fi
+######################################################
+
+### Set CUPS config ##################################
 
 	if [[ $SETUP -eq 2 ]]; then
+		
+		CUPS_FLAG=1
+		echo -e "\n"
+
+		while [ $CUPS_FLAG -eq 1 ]; do
 
 		if command -v lpadmin >/dev/null 2>&1; then
+			
+				
+				CUPS_SETUP=$(get_cups_setup)
+				echo -e "\n"
 
-			cups_menu
+				if [[ $CUPS_SETUP -eq 4 ]]; then
+					cups_show_devices_list
+				fi
 
-			read -p "Choose action: " ACTION_FOR_CUPS
+				#lpstat -v
+				if [[ $CUPS_SETUP -eq 1 ]]; then
+					cups_add_new_device
+				fi
 
-			CUPS_DATA_DEVICES=$(lpstat -v 2>&1)
+				if [[ $CUPS_SETUP -eq 2 ]]; then
+					cups_delete_exist_device
+				fi
 
-			if [[ $ACTION_FOR_CUPS -eq 4 ]]; then
-				echo -e "\nExist data of devices:\n"
-				echo "$CUPS_DATA_DEVICES"
-			fi
+				if [[ $CUPS_SETUP -eq 3 ]]; then
+					cups_edit_exist_device
+				fi
 
-			#lpstat -v
-			if [[ $ACTION_FOR_CUPS -eq 1 ]]; then
-				NAME_NEW_CUPS_DEVICE=""
-				IP_NEW_CUPS_DEVICE=""
-				DESCRIPTION_NEW_CUPS_DEVICE=""
-				LOCATION_NEW_CUPS_DEVICE=""
-
-				#lpadmin -p "My name" -E (activate) -v socket://192.168.229.***:9100
-				#-m everywhere -D описание опционально -L расположение опционально
-				read -p "Enter name new device: " NAME_NEW_CUPS_DEVICE
-
-				#read -p "Enter ip new device: " IP_NEW_CUPS_DEVICE
-				IP_NEW_CUPS_DEVICE=$(get_ip_addr "Enter ip for new device CUPS")
-
-
-				read -p "Enter description (if need): " DESCRIPTION_NEW_CUPS_DEVICE
-				read -p "Enter location (if need): " LOCATION_NEW_CUPS_DEVICE
-
-
-				lpadmin -p "$NAME_NEW_CUPS_DEVICE" -E \
-				-v ipp://$IP_NEW_CUPS_DEVICE:9100 \
-				-m everywhere \
-				-D "$DESCRIPTION_NEW_CUPS_DEVICE" \
-				-L "$LOCATION_NEW_CUPS_DEVICE"
-			fi
-			if [[ $ACTION_FOR_CUPS -eq 2 ]]; then
-				echo "You choose 2"
-			fi
-			if [[ $ACTION_FOR_CUPS -eq 3 ]]; then
-				echo "You choose 3"
-			fi
-
+				if [[ $CUPS_SETUP -eq 5 ]]; then
+					cups_back_to_main_menu
+				fi
+		
 		else
+
 			echo -e "$ERROR_MSG: This setup work only with cups utility"
 			echo -e "$WARNING_MSG: Please, install cups and cups-client - sudo apt install cups cups-client"
+			CUPS_FLAG=0
 
 		fi
+		done
 	fi
+##############################################################
 
-# Optimization for airscan (without auto scaning ip)
-if [[ $SETUP -eq 3 ]]; then
-	sed -i 's/^[^#]/#&/' /etc/sane.d/dll.conf
-	mkdir /etc/sane.d/dll.d_backup
+# Optimization for airscan (without auto scaning ip) #########
 
-	for file in /etc/sane.d/dll.d/*; do
-		if [[ -f "$file" && ! "$(basename "$file")" =~ ^airscan ]]; then
-			mv "$file" /etc/sane.d/dll.d_backup/
-		fi
-	done
-fi
+	if [[ $SETUP -eq 3 ]]; then
+		sed -i 's/^[^#]/#&/' /etc/sane.d/dll.conf
+		mkdir /etc/sane.d/dll.d_backup
 
-if [[ $SETUP -eq 4 ]]; then
-	systemctl stop cups-browsed
-	systemctl disable cups-browsed
+		for file in /etc/sane.d/dll.d/*; do
+			if [[ -f "$file" && ! "$(basename "$file")" =~ ^airscan ]]; then
+				mv "$file" /etc/sane.d/dll.d_backup/
+			fi
+		done
+	fi
+###############################################################
 
-	sed -i.bak -E 's/^([[:space:]]*Browsing[[:space:]]+)(On|Yes|No)/\1Off/i' /etc/cups/cupsd.conf
-	sed -i.bak -E 's/^([[:space:]]*BrowseLocalProtocols[[:space:]]+)(dnssd)/\1none/i' /etc/cups/cupsd.conf
+# Optimization CUPS (browsed off) #############################
 
-	systemctl restart cups
-fi
+	if [[ $SETUP -eq 4 ]]; then
+		systemctl stop cups-browsed
+		systemctl disable cups-browsed
 
-if [[ $SETUP -eq 5 ]]; then
-	MAIN_FLAG=0
-	echo -e "\n"
-fi
+		sed -i.bak -E 's/^([[:space:]]*Browsing[[:space:]]+)(On|Yes|No)/\1Off/i' /etc/cups/cupsd.conf
+		sed -i.bak -E 's/^([[:space:]]*BrowseLocalProtocols[[:space:]]+)(dnssd)/\1none/i' /etc/cups/cupsd.conf
+
+		systemctl restart cups
+	fi
+###############################################################
+
+### Exit of script ############################################
+	if [[ $SETUP -eq 5 ]]; then
+		MAIN_FLAG=0
+		echo -e "\n"
+	fi
+###############################################################
 
 done

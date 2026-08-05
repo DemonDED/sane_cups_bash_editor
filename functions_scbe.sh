@@ -11,7 +11,7 @@ cups_menu() {
 	echo -e "${ORANGE}2.$RESET_COLOR Edit exist device" >&2
 	echo -e "${ORANGE}3.$RESET_COLOR Delete exist device" >&2
 	echo -e "${ORANGE}4.$RESET_COLOR Show devices list" >&2
-	echo -e "${ORANGE}5.$RESET_COLOR Back to main menu"
+	echo -e "${ORANGE}5.$RESET_COLOR Back to main menu" >&2
 }
 sane_menu() {
 	echo -e "${BLUE}1.$RESET_COLOR Add new device" >&2
@@ -71,6 +71,35 @@ check_sane_setup(){
 	else
 		return 0
 	fi
+}
+
+get_cups_setup(){
+	local cups_setup_local=""
+
+	cups_menu
+
+	while true; do
+		read -p "Please, choose setup work: " cups_setup_local
+
+		if check_cups_setup "$cups_setup_local"; then
+			echo -e "$cups_setup_local"
+			return 0
+		fi
+	done
+
+}
+
+check_cups_setup(){
+	local cups_loc=$1
+
+	if [[ $cups_loc -ne 1 && $cups_loc -ne 2 && $cups_loc -ne 3 && $cups_loc -ne 4 && $cups_loc -ne 5 ]]; then
+		echo -e "$ERROR_MSG: Incorrect setup value!" >&2
+		echo -e "$WARNING_MSG: Please, enter correct setup value!\n" >&2
+		return 1
+	else
+		return 0
+	fi
+
 }
 
 get_ip_addr() {
