@@ -37,14 +37,14 @@ while true; do
 		cd ./sane_cups_bash_editor-master
 		cp scbe.sh "$TARGET_BIN_DIR/$BINARY_NAME"
 
-		cp *.sh
+		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
 
 		chmod +x "$TARGET_DIR/$BINARY_NAME"
 
 		echo "Install complete!"
 		echo "You must use programm with command: scbe"
 
-		return 0
+		exit 0
 	fi
 
 	if [[ "$SETUP" -eq 2 ]]; then
@@ -54,14 +54,14 @@ while true; do
 		cd ./sane_cups_bash_editor-develope
 		cp scbe.sh "$TARGET_BIN_DIR/$BINARY_NAME"
 
-		cp *.sh
+		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
 
 		chmod +x "$TARGET_DIR/$BINARY_NAME"
 
 		echo "Install complete!"
 		echo "You must use programm with command: scbe"
 
-		return 0
+		exit 0
 	fi
 
 done
