@@ -28,46 +28,35 @@ while true; do
 	echo -e "1. Install stable version"
 	echo -e "2. Install develope build"
 
-	read -p "" SETUP
+	read -p "Select option (1-2): " SETUP
 
 	if [[ "$SETUP" -eq 1 ]]; then
-		curl -L -O "$LINK_MAIN_BINARY"
-		
-		unzip master.zip
-		cd ./sane_cups_bash_editor-master
-		cp scbe.sh "$TARGET_BIN_DIR/$BINARY_NAME"
-
-		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
-
-		chmod +x "$TARGET_DIR/$BINARY_NAME"
-		
-		rm master.zip
-		rm -f sane_cups_bash_editor-master
-
-		echo "Install complete!"
-		echo "You must use programm with command: scbe"
-
-		exit 0
+		URL="$LINK_MAIN_BINARY"
+		DIR_NAME="sane_cups_bash_editor-master"
+		ZIP_NAME="master.zip"
+		break
+	elif [[ "$SETUP" -eq 2 ]]; then
+		URL="$LINK_DEV_BUILD"
+		DIR_NAME="sane_cups_bash_editor-develope"
+		ZIP_NAME="develope.zip"
+		break
+	else
+		echo -e "Invalid choice. Plese, try again.\n"
 	fi
-
-	if [[ "$SETUP" -eq 2 ]]; then
-		curl -L -O "$LINK_DEV_BUILD"
-
-		unzip develope.zip
-		cd ./sane_cups_bash_editor-develope
-		cp scbe.sh "$TARGET_BIN_DIR/$BINARY_NAME"
-
-		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
-
-		chmod +x "$TARGET_DIR/$BINARY_NAME"
-
-		rm develope.zip
-		rm -f sane_cups_bash_editor-develope
-
-		echo "Install complete!"
-		echo "You must use programm with command: scbe"
-
-		exit 0
-	fi
-
 done
+
+curl -L -o "$ZIP_NAME" "$URL"
+		
+unzip -q "$ZIP_NAME"
+cp ${DIR_NAME}/scbe.sh "$TARGET_BIN_DIR/$BINARY_NAME"
+mkdir -p "$TARGET_LIB_DIR/$BINARY_NAME"
+cp ${DIR_NAME}/*_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
+		
+chmod +x "$TARGET_BIN_DIR/$BINARY_NAME"
+		
+rm "$ZIP_NAME"
+rm -rf "$DIR_NAME"
+
+echo "Install complete!"
+echo "You must use programm with command: scbe"
+	

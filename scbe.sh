@@ -1,10 +1,28 @@
 #!/bin/bash
 
-source ./variables_scbe_lib.sh
-source ./colors_scbe_lib.sh
-source ./functions_scbe_lib.sh
-source ./sane_functional_scbe_lib.sh
-source ./cups_functional_scbe_lib.sh
+MAIN_LIB_DIR="/usr/local/lib/scbe"
+
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
+if [[ "$SCRIPT_DIR" == *"/sane_cups_bash_editor" ]]; then
+
+	source ${SCRIPT_DIR}/variables_scbe_lib.sh
+	source ${SCRIPT_DIR}/colors_scbe_lib.sh
+	source ${SCRIPT_DIR}/functions_scbe_lib.sh
+	source ${SCRIPT_DIR}/sane_functional_scbe_lib.sh
+	source ${SCRIPT_DIR}/cups_functional_scbe_lib.sh
+
+fi
+
+if [[ "$SCRIPT_DIR" == "/usr/local/bin" ]]; then
+	
+	source ${MAIN_LIB_DIR}/variables_scbe_lib.sh
+	source ${MAIN_LIB_DIR}/colors_scbe_lib.sh
+	source ${MAIN_LIB_DIR}/functions_scbe_lib.sh
+	source ${MAIN_LIB_DIR}/sane_functional_scbe_lib.sh
+	source ${MAIN_LIB_DIR}/cups_functional_scbe_lib.sh
+
+fi
 
 #loader_dot() {
 
