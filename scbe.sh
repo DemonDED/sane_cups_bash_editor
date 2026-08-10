@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source ./variables_scbe.sh
-source ./colors_scbe.sh
-source ./functions_scbe.sh
-source ./sane_functional_scbe.sh
-source ./cups_functional_scbe.sh
+source ./variables_scbe_lib.sh
+source ./colors_scbe_lib.sh
+source ./functions_scbe_lib.sh
+source ./sane_functional_scbe_lib.sh
+source ./cups_functional_scbe_lib.sh
 
 #loader_dot() {
 
