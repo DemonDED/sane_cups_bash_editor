@@ -40,6 +40,9 @@ while true; do
 		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
 
 		chmod +x "$TARGET_DIR/$BINARY_NAME"
+		
+		rm master.zip
+		rm -f sane_cups_bash_editor-master
 
 		echo "Install complete!"
 		echo "You must use programm with command: scbe"
@@ -57,6 +60,9 @@ while true; do
 		cp *_lib.sh "$TARGET_LIB_DIR/$BINARY_NAME/"
 
 		chmod +x "$TARGET_DIR/$BINARY_NAME"
+
+		rm develope.zip
+		rm -f sane_cups_bash_editor-develope
 
 		echo "Install complete!"
 		echo "You must use programm with command: scbe"
