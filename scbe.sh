@@ -168,7 +168,7 @@ if [[ $SETUP -eq 5 ]]; then
 	systemctl stop avahi.service
 	systemctl stop avahi.socket
 	echo -e "\n"
-	systemctl status avahi.service
+	echo -e "\e[33m$(systemctl status avahi.service)\e[0m"
 	echo -e "\n"
 fi
 
