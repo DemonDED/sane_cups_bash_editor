@@ -159,8 +159,23 @@ while [ $MAIN_FLAG -eq 1 ]; do
 	fi
 ###############################################################
 
+# Optimization CUPS (avahi off) ###############################
+
+if [[ $SETUP -eq 5 ]]; then
+	systemctl mask avahi.service
+	systemctl mask avahi.socket
+
+	systemctl stop avahi.service
+	systemctl stop avahi.socket
+	echo -e "\n"
+	systemctl status avahi.service
+	echo -e "\n"
+fi
+
+###############################################################
+
 ### Exit of script ############################################
-	if [[ $SETUP -eq 5 ]]; then
+	if [[ $SETUP -eq 6 ]]; then
 		MAIN_FLAG=0
 		echo -e "\n"
 	fi
