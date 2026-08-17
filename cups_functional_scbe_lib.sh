@@ -13,7 +13,7 @@ cups_add_new_device(){
 
 
 	lpadmin -p "$NAME_NEW_CUPS_DEVICE" -E \
-	-v ipp://$IP_NEW_CUPS_DEVICE:9100 \
+	-v "ipp://$IP_NEW_CUPS_DEVICE/ipp/print" \
 	-m everywhere \
 	-D "$DESCRIPTION_NEW_CUPS_DEVICE" \
 	-L "$LOCATION_NEW_CUPS_DEVICE"
