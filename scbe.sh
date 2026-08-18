@@ -110,11 +110,11 @@ while [ $MAIN_FLAG -eq 1 ]; do
 				fi
 
 				if [[ $CUPS_SETUP -eq 2 ]]; then
-					cups_delete_exist_device
+					cups_edit_exist_device
 				fi
 
 				if [[ $CUPS_SETUP -eq 3 ]]; then
-					cups_edit_exist_device
+					cups_delete_exist_device
 				fi
 
 				if [[ $CUPS_SETUP -eq 5 ]]; then
