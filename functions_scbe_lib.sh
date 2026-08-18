@@ -1,6 +1,6 @@
 #Main funcitons
 setup_menu() {
-	echo -e "${GREEN}1.$RESET_COLOR Set ${BLUE}SANE$RESET_COLOR config" >&2
+	echo -e "${GREEN}1.$RESET_COLOR Set ${PURPLE}SANE$RESET_COLOR config" >&2
 	echo -e "${GREEN}2.$RESET_COLOR Set ${ORANGE}CUPS$RESET_COLOR config" >&2
 	echo -e "${GREEN}3.$RESET_COLOR Optimization SANE airscan (auto scan ip off)" >&2
 	echo -e "${GREEN}4.$RESET_COLOR Optimization CUPS (browsed off)" >&2
@@ -8,16 +8,16 @@ setup_menu() {
 	echo -e "${GREEN}6.$RESET_COLOR Exit" >&2
 }
 cups_menu() {
-	echo -e "${ORANGE}1.$RESET_COLOR Add new device" >&2
-	echo -e "${ORANGE}2.$RESET_COLOR Edit exist device" >&2
-	echo -e "${ORANGE}3.$RESET_COLOR Delete exist device" >&2
+	echo -e "${ORANGE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
+	echo -e "${ORANGE}2.$RESET_COLOR ${YELLOW}Edit$RESET_COLOR exist device" >&2
+	echo -e "${ORANGE}3.$RESET_COLOR ${RED}Delete$RESET_COLOR exist device" >&2
 	echo -e "${ORANGE}4.$RESET_COLOR Show devices list" >&2
 	echo -e "${ORANGE}5.$RESET_COLOR Back to main menu" >&2
 }
 sane_menu() {
-	echo -e "${BLUE}1.$RESET_COLOR Add new device" >&2
-	echo -e "${BLUE}2.$RESET_COLOR Show device list" >&2
-	echo -e "${BLUE}3.$RESET_COLOR Back to main menu" >&2
+	echo -e "${PURPLE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
+	echo -e "${PURPLE}2.$RESET_COLOR Show device list" >&2
+	echo -e "${PURPLE}3.$RESET_COLOR Back to main menu" >&2
 }
 ###
 get_setup() {
