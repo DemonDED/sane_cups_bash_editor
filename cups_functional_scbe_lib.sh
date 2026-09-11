@@ -56,12 +56,13 @@ cups_delete_exist_device(){
 	echo -e "Sorry, this in develope\n"
 	
 	cups_show_devices_list
+	
+	mapfile -t devices < <(lpstat -v 2>&1)
 
-	$TEST=""
-
-	read -e -p "test: " -i "TEST_VALUE" TEST
-
-	echo "$TEST"
+	echo "Найденные устройства:"
+	for i in "${!devices[@]}"; do
+		echo "$i) ${devices[$i]}"
+	done
 
 	#read -p "Choose device for delete: " CUPS_CHOOSE_DELETE_DEVICE
 		
@@ -69,6 +70,8 @@ cups_delete_exist_device(){
 
 cups_edit_exist_device(){
 	echo -e "Sorry, this in develope\n"
+
+	# read -e -p "test: " -i "TEST_VALUE" TEST
 }
 
 cups_back_to_main_menu(){
