@@ -78,3 +78,14 @@ cups_back_to_main_menu(){
 	CUPS_FLAG=0
 	echo -e "\n"
 }
+
+cups_presets(){
+	
+	apt-repo add "rpm http://alt-mirror.arm.loc/ drv/x86_64 drv"
+	apt-get update
+	apt-repo add "rpm http://alt-mirror.arm.loc/ drv/noarch drv"
+	apt-get update
+	apt-get install kyocera-ppd-cups kyocera-sane -y
+	lpadmin -p "colorPrint" -E -v ipp://192.168.229.136:631/ipp -m everywhere
+
+}

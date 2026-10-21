@@ -11,8 +11,9 @@ cups_menu() {
 	echo -e "${ORANGE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
 	echo -e "${ORANGE}2.$RESET_COLOR ${YELLOW}Edit$RESET_COLOR exist device" >&2
 	echo -e "${ORANGE}3.$RESET_COLOR ${RED}Delete$RESET_COLOR exist device" >&2
-	echo -e "${ORANGE}4.$RESET_COLOR Show devices list" >&2
-	echo -e "${ORANGE}5.$RESET_COLOR Back to main menu" >&2
+	echo -e "${ORANGE}4.$RESET_COLOR Presets." >&2
+	echo -e "${ORANGE}5.$RESET_COLOR Show devices list" >&2
+	echo -e "${ORANGE}6.$RESET_COLOR Back to main menu" >&2
 }
 sane_menu() {
 	echo -e "${PURPLE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
