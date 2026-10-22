@@ -11,9 +11,10 @@ cups_menu() {
 	echo -e "${ORANGE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
 	echo -e "${ORANGE}2.$RESET_COLOR ${YELLOW}Edit$RESET_COLOR exist device" >&2
 	echo -e "${ORANGE}3.$RESET_COLOR ${RED}Delete$RESET_COLOR exist device" >&2
-	echo -e "${ORANGE}4.$RESET_COLOR Presets." >&2
-	echo -e "${ORANGE}5.$RESET_COLOR Show devices list" >&2
-	echo -e "${ORANGE}6.$RESET_COLOR Back to main menu" >&2
+	echo -e "${ORANGE}4.$RESET_COLOR Presets" >&2
+	echo -e "${ORANGE}5.$RESET_COLOR Enable device" >&2
+	echo -e "${ORANGE}6.$RESET_COLOR Show devices list" >&2
+	echo -e "${ORANGE}7.$RESET_COLOR Back to main menu" >&2
 }
 sane_menu() {
 	echo -e "${PURPLE}1.$RESET_COLOR ${BLUE}Add$RESET_COLOR new device" >&2
@@ -94,7 +95,7 @@ get_cups_setup(){
 check_cups_setup(){
 	local cups_loc=$1
 
-	if [[ $cups_loc -ne 1 && $cups_loc -ne 2 && $cups_loc -ne 3 && $cups_loc -ne 4 && $cups_loc -ne 5 ]]; then
+	if [[ $cups_loc -ne 1 && $cups_loc -ne 2 && $cups_loc -ne 3 && $cups_loc -ne 4 && $cups_loc -ne 5 && $cups_loc -ne 6 && $cups_loc -ne 7 ]]; then
 		echo -e "$ERROR_MSG: Incorrect setup value!" >&2
 		echo -e "$WARNING_MSG: Please, enter correct setup value!\n" >&2
 		return 1

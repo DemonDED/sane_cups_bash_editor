@@ -100,7 +100,7 @@ while [ $MAIN_FLAG -eq 1 ]; do
 				CUPS_SETUP=$(get_cups_setup)
 				echo -e "\n"
 
-				if [[ $CUPS_SETUP -eq 5 ]]; then
+				if [[ $CUPS_SETUP -eq 6 ]]; then
 					cups_show_devices_list
 				fi
 
@@ -121,7 +121,11 @@ while [ $MAIN_FLAG -eq 1 ]; do
 					cups_presets
 				fi
 
-				if [[ $CUPS_SETUP -eq 6 ]]; then
+				if [[ $CUPS_SETUP -eq 5 ]]; then
+					cups_enable_device
+				fi
+
+				if [[ $CUPS_SETUP -eq 7 ]]; then
 					cups_back_to_main_menu
 				fi
 		

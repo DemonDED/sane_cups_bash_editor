@@ -89,3 +89,20 @@ cups_presets(){
 	lpadmin -p "colorPrint" -E -v ipp://192.168.229.136:631/ipp -m everywhere
 
 }
+
+cups_enable_device(){
+
+	local device_local=""
+
+	cups_show_devices_list
+	read -p "Enter device name: " device_local
+
+	sudo lpadmin -p "$(device_local)" -E
+
+	if [[ $? -eq 0 ]]; then
+		echo -e "\nActivate complete!\n"
+	else
+		echo -e "\nError\n"
+	fi
+
+}
