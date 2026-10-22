@@ -96,8 +96,8 @@ cups_enable_device(){
 
 	cups_show_devices_list
 	read -p "Enter device name: " device_local
-
-	sudo lpadmin -p "$(device_local)" -E
+	
+	sudo lpadmin -p "$device_local" -E
 
 	if [[ $? -eq 0 ]]; then
 		echo -e "\nActivate complete!\n"
