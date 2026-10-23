@@ -55,6 +55,8 @@ cups_show_devices_list(){
 cups_delete_exist_device(){
 	echo -e "Sorry, this in develope\n"
 	
+	local device_for_delete=""
+
 	cups_show_devices_list
 	
 	mapfile -t devices < <(lpstat -v 2>&1)
@@ -65,12 +67,23 @@ cups_delete_exist_device(){
 	done
 
 	#read -p "Choose device for delete: " CUPS_CHOOSE_DELETE_DEVICE
-		
+
+	read -p "Enter device name: " device_for_delete
+
+	lpadmin -x "$device_for_delete"
+	
+	if [[ $? -eq 0 ]]; then
+		echo -e "\nDelete complete!\n"
+	else
+		echo -e "\nError\n"
+	fi
 }
 
 cups_edit_exist_device(){
 	echo -e "Sorry, this in develope\n"
-
+	
+	cups_delete_exist_device
+	cups_add_new_device
 	# read -e -p "test: " -i "TEST_VALUE" TEST
 }
 
