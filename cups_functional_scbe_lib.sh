@@ -1,3 +1,8 @@
+cups_add_menu_list(){
+	echo -e "${BLUE}1.$RESET_COLOR Pantum"
+	echo -e "${BLUE}2.$RESET_COLOR Kyocera"
+}
+
 cups_add_new_device(){
 	
 	#lpadmin -p "My name" -E (activate) -v socket://192.168.229.***:9100
@@ -6,27 +11,36 @@ cups_add_new_device(){
 
 	#read -p "Enter ip new device: " IP_NEW_CUPS_DEVICE
 	IP_NEW_CUPS_DEVICE=$(get_ip_addr "Enter ip for new device CUPS")
-
-
+	
 	read -p "Enter description (if need): " DESCRIPTION_NEW_CUPS_DEVICE
 	read -p "Enter location (if need): " LOCATION_NEW_CUPS_DEVICE
 
+	while true; do
+		cups_add_menu_list
 
+		read -p "Enter device model: " CUPS_DEVICE_MODEL
+
+		if [[ $CUPS_DEVICE_MODEL -eq 1 ]]; then
+			# Pantum
+			CUPS_NETWORK_PATH_DEVICE="ipp://${IP_NEW_CUPS_DEVICE}/ipp/print"
+			break
+		elif [[ $CUPS_DEVICE_MODEL -eq 2 ]]; then
+			# Kyocera
+			CUPS_NETWORK_PATH_DEVICE="ipp://${IP_NEW_CUPS_DEVICE}:631/ipp"
+			break
+		else
+			echo -e "$ERROR_MSG: Incorrect entered data!"
+			echo -e "$WARNING_MSG: Please, enter correct data."
+		fi
+	done
+	
 	lpadmin -p "$NAME_NEW_CUPS_DEVICE" -E \
-	-v ipp://$IP_NEW_CUPS_DEVICE:9100 \
+	-v "$CUPS_NETWORK_PATH_DEVICE" \
 	-m everywhere \
 	-D "$DESCRIPTION_NEW_CUPS_DEVICE" \
 	-L "$LOCATION_NEW_CUPS_DEVICE"
 	
 	echo -e "\n"
-}
-
-cups_delete_exist_device(){
-	echo -e "Sorry, this in develope\n"
-}
-
-cups_edit_exist_device(){
-	echo -e "Sorry, this in develope\n"
 }
 
 cups_show_devices_list(){
@@ -38,7 +52,70 @@ cups_show_devices_list(){
 
 }
 
+cups_delete_exist_device(){
+	echo -e "Sorry, this in develope\n"
+	
+	local device_for_delete=""
+
+	cups_show_devices_list
+	
+	mapfile -t devices < <(lpstat -v 2>&1)
+
+	echo "Найденные устройства:"
+	for i in "${!devices[@]}"; do
+		echo "$i) ${devices[$i]}"
+	done
+
+	#read -p "Choose device for delete: " CUPS_CHOOSE_DELETE_DEVICE
+
+	read -p "Enter device name: " device_for_delete
+
+	lpadmin -x "$device_for_delete"
+	
+	if [[ $? -eq 0 ]]; then
+		echo -e "\nDelete complete!\n"
+	else
+		echo -e "\nError\n"
+	fi
+}
+
+cups_edit_exist_device(){
+	echo -e "Sorry, this in develope\n"
+	
+	cups_delete_exist_device
+	cups_add_new_device
+	# read -e -p "test: " -i "TEST_VALUE" TEST
+}
+
 cups_back_to_main_menu(){
 	CUPS_FLAG=0
 	echo -e "\n"
+}
+
+cups_presets(){
+	
+	apt-repo add "rpm http://alt-mirror.arm.loc/ drv/x86_64 drv"
+	apt-get update
+	apt-repo add "rpm http://alt-mirror.arm.loc/ drv/noarch drv"
+	apt-get update
+	apt-get install kyocera-ppd-cups kyocera-sane -y
+	lpadmin -p "colorPrint" -E -v ipp://192.168.229.136:631/ipp -m everywhere
+
+}
+
+cups_enable_device(){
+
+	local device_local=""
+
+	cups_show_devices_list
+	read -p "Enter device name: " device_local
+	
+	sudo lpadmin -p "$device_local" -E
+
+	if [[ $? -eq 0 ]]; then
+		echo -e "\nActivate complete!\n"
+	else
+		echo -e "\nError\n"
+	fi
+
 }

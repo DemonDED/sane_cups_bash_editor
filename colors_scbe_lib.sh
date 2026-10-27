@@ -4,6 +4,7 @@ RED="\e[31m"
 YELLOW="\e[33m"
 BLUE="\e[0;36m"
 ORANGE="\e[38;5;208m"
+PURPLE="\e[35m"
 RESET_COLOR="\e[0m"
 
 ERROR_MSG="$RED[ERROR]$RESET_COLOR"

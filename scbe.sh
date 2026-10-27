@@ -100,7 +100,7 @@ while [ $MAIN_FLAG -eq 1 ]; do
 				CUPS_SETUP=$(get_cups_setup)
 				echo -e "\n"
 
-				if [[ $CUPS_SETUP -eq 4 ]]; then
+				if [[ $CUPS_SETUP -eq 6 ]]; then
 					cups_show_devices_list
 				fi
 
@@ -110,14 +110,22 @@ while [ $MAIN_FLAG -eq 1 ]; do
 				fi
 
 				if [[ $CUPS_SETUP -eq 2 ]]; then
-					cups_delete_exist_device
-				fi
-
-				if [[ $CUPS_SETUP -eq 3 ]]; then
 					cups_edit_exist_device
 				fi
 
+				if [[ $CUPS_SETUP -eq 3 ]]; then
+					cups_delete_exist_device
+				fi
+
+				if [[ $CUPS_SETUP -eq 4 ]]; then
+					cups_presets
+				fi
+
 				if [[ $CUPS_SETUP -eq 5 ]]; then
+					cups_enable_device
+				fi
+
+				if [[ $CUPS_SETUP -eq 7 ]]; then
 					cups_back_to_main_menu
 				fi
 		
@@ -159,8 +167,23 @@ while [ $MAIN_FLAG -eq 1 ]; do
 	fi
 ###############################################################
 
+# Optimization CUPS (avahi off) ###############################
+
+if [[ $SETUP -eq 5 ]]; then
+	systemctl mask avahi.service
+	systemctl mask avahi.socket
+
+	systemctl stop avahi.service
+	systemctl stop avahi.socket
+	echo -e "\n"
+	echo -e "\e[33m$(systemctl status avahi.service)\e[0m"
+	echo -e "\n"
+fi
+
+###############################################################
+
 ### Exit of script ############################################
-	if [[ $SETUP -eq 5 ]]; then
+	if [[ $SETUP -eq 6 ]]; then
 		MAIN_FLAG=0
 		echo -e "\n"
 	fi
